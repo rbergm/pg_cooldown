@@ -1,2 +1,26 @@
 # pg_cooldown
-PostgreSQL utility to remove buffered pages for specific relations.
+
+PostgreSQL extension to remove all pages of specific relations from the shared buffer.
+
+The extension was heavily inspired by _pg_prewarm_ and functions as a complementary tool:
+Whereas _pg_prewarm_ adds pages from a relation to the shared buffer, _pg_cooldown_ removes them
+again.
+
+The main purpose of this tool is to easily simulate cold-start scenarios in research.
+
+
+## Installation
+
+Install like a normal contrib extension using `make` and `make install`.
+Afterwards, the extension can be activated with `CREATE extension pg_cooldown;`.
+
+
+## Usage
+
+_pg_cooldown_ can be used just like _pg_prewarm_: `SELECT pg_cooldown('my_relation');` removes
+all buffered data pages of the relation from the shared buffers.
+
+Likewise, `SELECT pg_cooldown('my_relation_pkey');` can be used to remove the pages of the primary
+key index of the relation. This also works for secondary index structures:
+`SELECT pg_cooldown('my_index_name');`
+
