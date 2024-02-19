@@ -22,6 +22,12 @@ PG_MODULE_MAGIC;
 
 PG_FUNCTION_INFO_V1(pg_cooldown);
 
+#if PG_VERSION_NUM < 160000
+#define DropRelFileNodesAllBuffers(rel, n) DropRelFileNodesAllBuffers(rel, n)
+#else
+#define DropRelFileNodesAllBuffers(rel, n) DropRelationsAllBuffers(rel, n)
+#endif
+
 /*
  * pg_cooldown(regclass)
  *
